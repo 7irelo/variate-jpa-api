@@ -1,5 +1,7 @@
-package com.variate.model;
+package com.variate.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +9,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder
@@ -15,31 +16,32 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "products")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "products_id_seq")
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", nullable = false)
-    public Category category;
+    private Category category;
 
     @Column(nullable = false)
-    public String name;
+    private String name;
 
     @Column(nullable = false)
-    public String description;
+    private String description;
 
     @Column(nullable = false)
-    public Float price;
+    private Float price;
+
+    private LocalDateTime manufactured;
 
     @Column(nullable = false)
-    public LocalDateTime manufactured;
+    private Boolean onSale;
 
-    @Column(nullable = false)
-    public Boolean onSale;
-
+    @JsonProperty("image")
     @Column(name = "image_url")
-    public String imageUrl;
-
+    private String imageUrl;
 }

@@ -1,0 +1,16 @@
+{
+	"id": 1,
+	"category": {
+		    	"id": 1,
+			"name": "Electronics",
+			"description": "Gadgets and consoles",
+			"products": [],
+			"image": "electronics.jpg"
+		    },
+	"name": "Samsung A15 Blue",
+	"description": "A sleek smartphone with a powerful processor.",
+	"price": 5999.0,
+	"manufactured": null,
+	"onSale": true,
+	"image": "samsung_a15_blue.jpg"
+}

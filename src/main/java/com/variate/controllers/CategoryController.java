@@ -1,4 +1,4 @@
-package com.variate.controller;
+package com.variate.controllers;
 
 import com.variate.model.dto.CategoryDto;
 import com.variate.services.CategoryService;

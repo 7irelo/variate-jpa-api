@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.User;
 
 @Data
 @Builder
@@ -24,8 +24,8 @@ public class Review {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "identity_user_id", nullable = false)
-    private User identityUser;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private Integer rating;

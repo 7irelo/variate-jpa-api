@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.User;
 
 import java.time.LocalDateTime;
 
@@ -22,11 +22,11 @@ public class Order {
     private Long id;
 
     @Column(name = "identity_user_id", nullable = false)
-    private String identityUserId;
+    private String userId;
 
     @ManyToOne
-    @JoinColumn(name = "identity_user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private User identityUser;
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private User user;
 
     @Column(name = "order_date_time", nullable = false)
     private LocalDateTime orderDateTime = LocalDateTime.now();

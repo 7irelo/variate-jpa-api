@@ -1,91 +1,119 @@
-# Variate JPA API
+# **Variate JPA API**
 
-Variate JPA API is a Spring Boot-based e-commerce application backend that provides a RESTful API for managing categories, products, orders, order items, payments, and reviews. The application uses PostgreSQL as its database, and the database name is `variatespring`.
+**Variate JPA API** is a Spring Boot-based e-commerce backend application that provides a RESTful API for managing categories, products, orders, order items, payments, and reviews. The application integrates with PostgreSQL as its primary database and supports JWT-based authentication for secure access.
 
-## Features
+## **Features**
 
 - **Category Management**: Create, read, update, patch, and delete product categories.
-- **Product Management**: Manage products under different categories with detailed information like price, description, and availability.
-- **Order Management**: Manage customer orders, including creating, updating, and viewing orders.
-- **Order Item Management**: Handle the individual items within an order.
+- **Product Management**: Handle products under different categories, including information such as price, description, and stock availability.
+- **Order Management**: Create, update, and manage customer orders.
+- **Order Item Management**: Handle individual items within customer orders.
 - **Payment Management**: Manage payment details related to customer orders.
-- **Review Management**: Manage customer reviews on products.
+- **Review Management**: Customers can add, update, and manage reviews for products.
+- **JWT Authentication**: Secure API access using JSON Web Tokens (JWT).
+- **Swagger Documentation**: Explore and interact with the API using Swagger UI.
 
-## Technologies Used
+## **Technologies Used**
 
 - **Java 22**
 - **Spring Boot 3.3.3**
-- **Spring Data JPA**
-- **Spring Security**
-- **PostgreSQL**
-- **H2 (for in-memory testing)**
-- **ModelMapper**
-- **JWT (for authentication and security)**
-- **Maven** (for dependency management)
+- **Spring Data JPA** for ORM and database operations
+- **Spring Security** with JWT for authentication and authorization
+- **PostgreSQL** as the primary database
+- **H2** for in-memory testing
+- **ModelMapper** for DTO conversions
+- **Swagger/OpenAPI** for API documentation
+- **Maven** for dependency management and build automation
 
-## Database
+## **Database Setup**
 
-The project uses a PostgreSQL database called `variatespring`. Ensure PostgreSQL is installed and configured on your local environment. You can adjust the database settings in the `application.properties` file.
+This project uses PostgreSQL as the database. The default configuration assumes a database named `variatespring`. Ensure PostgreSQL is installed and running in your local environment, and update the credentials in the `application.properties` file as needed.
 
-## Endpoints
+Example `application.properties` configuration:
 
-### Category Endpoints
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/variatespring
+spring.datasource.username=yourUsername
+spring.datasource.password=yourPassword
+```
+
+## **Endpoints Overview**
+
+### **Category Endpoints**
 
 - `POST /api/categories`: Create a new category
-- `GET /api/categories/{id}`: Get category by ID
-- `GET /api/categories`: Get all categories
-- `PUT /api/categories/{id}`: Update an existing category
+- `GET /api/categories/{id}`: Retrieve a category by ID
+- `GET /api/categories`: List all categories
+- `PUT /api/categories/{id}`: Update a category by ID
 - `PATCH /api/categories/{id}`: Partially update a category
 - `DELETE /api/categories/{id}`: Delete a category
 
-### Product Endpoints
+### **Product Endpoints**
 
 - `POST /api/products`: Create a new product
-- `GET /api/products/{id}`: Get product by ID
-- `GET /api/products`: Get all products
+- `GET /api/products/{id}`: Retrieve a product by ID
+- `GET /api/products`: List all products
 - `PUT /api/products/{id}`: Update a product
 - `PATCH /api/products/{id}`: Partially update a product
 - `DELETE /api/products/{id}`: Delete a product
 
-### Order Endpoints
+### **Order Endpoints**
 
 - `POST /api/orders`: Create a new order
-- `GET /api/orders/{id}`: Get order by ID
-- `GET /api/orders`: Get all orders
+- `GET /api/orders/{id}`: Retrieve an order by ID
+- `GET /api/orders`: List all orders
 - `PUT /api/orders/{id}`: Update an order
 - `PATCH /api/orders/{id}`: Partially update an order
 - `DELETE /api/orders/{id}`: Delete an order
 
-### Order Item Endpoints
+### **Order Item Endpoints**
 
 - `POST /api/order-items`: Create a new order item
-- `GET /api/order-items/{id}`: Get order item by ID
-- `GET /api/order-items`: Get all order items
+- `GET /api/order-items/{id}`: Retrieve an order item by ID
+- `GET /api/order-items`: List all order items
 - `PUT /api/order-items/{id}`: Update an order item
 - `PATCH /api/order-items/{id}`: Partially update an order item
 - `DELETE /api/order-items/{id}`: Delete an order item
 
-### Payment Endpoints
+### **Payment Endpoints**
 
 - `POST /api/payments`: Create a new payment
-- `GET /api/payments/{id}`: Get payment by ID
-- `GET /api/payments`: Get all payments
+- `GET /api/payments/{id}`: Retrieve a payment by ID
+- `GET /api/payments`: List all payments
 - `PUT /api/payments/{id}`: Update a payment
 - `PATCH /api/payments/{id}`: Partially update a payment
 - `DELETE /api/payments/{id}`: Delete a payment
 
-### Review Endpoints
+### **Review Endpoints**
 
 - `POST /api/reviews`: Create a new review
-- `GET /api/reviews/{id}`: Get review by ID
-- `GET /api/reviews`: Get all reviews
+- `GET /api/reviews/{id}`: Retrieve a review by ID
+- `GET /api/reviews`: List all reviews
 - `PUT /api/reviews/{id}`: Update a review
 - `PATCH /api/reviews/{id}`: Partially update a review
 - `DELETE /api/reviews/{id}`: Delete a review
 
-## Running the Application
+## **Security**
 
-To run this application locally, follow these steps:
+JWT-based authentication is used for securing the API. Publicly accessible endpoints include:
+
+- `/api/auth/login`
+- `/api/auth/register`
+- `/swagger-ui/**`
+- `/v3/api-docs/**`
+
+All other endpoints require a valid JWT token to access.
+
+## **API Documentation**
+
+Explore the API using Swagger UI. You can access the interactive API documentation via the following links:
+
+- **Swagger UI**: `http://localhost:8080/swagger-ui/index.html`
+- **OpenAPI Docs**: `http://localhost:8080/v3/api-docs`
+
+## **Running the Application**
+
+To run the application locally:
 
 1. Clone the repository:
    ```bash
@@ -97,40 +125,37 @@ To run this application locally, follow these steps:
    cd variate-jpa-api
    ```
 
-3. Configure PostgreSQL in `application.properties` with your database credentials:
-   ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/variatespring
-   spring.datasource.username=yourUsername
-   spring.datasource.password=yourPassword
-   ```
+3. Configure your PostgreSQL database credentials in `application.properties`.
 
-4. Run the application:
+4. Run the application using Maven:
    ```bash
    ./mvnw spring-boot:run
    ```
 
-## Development
+## **Development**
 
-This project uses Maven for dependency management. If you're developing locally, you can utilize the included dev tools for a better development experience.
+For local development, the project utilizes Maven for managing dependencies. You can take advantage of tools like `spring-boot-devtools` for live reloading during development.
 
-### Dependencies
+### **Key Dependencies**
 
-- `spring-boot-starter-web`
-- `spring-boot-starter-data-jpa`
-- `spring-boot-starter-security`
-- `spring-boot-devtools` (for live reloading during development)
-- `postgresql` (PostgreSQL JDBC Driver)
-- `modelmapper` (for DTO mapping)
-- `jjwt` (for JWT-based authentication)
+- `spring-boot-starter-web`: Provides RESTful web services
+- `spring-boot-starter-data-jpa`: For database access and ORM
+- `spring-boot-starter-security`: To handle security features
+- `postgresql`: PostgreSQL JDBC Driver
+- `modelmapper`: For mapping entities to DTOs and vice versa
+- `jjwt`: For JWT-based authentication
+- `springdoc-openapi-ui`: For auto-generated Swagger documentation
 
-## Contributing
+## **Contributing**
+
+We welcome contributions to improve the project! To contribute:
 
 1. Fork the repository.
 2. Create your feature branch: `git checkout -b feature/new-feature`.
-3. Commit your changes: `git commit -m 'Add some feature'`.
+3. Commit your changes: `git commit -m 'Add a new feature'`.
 4. Push to the branch: `git push origin feature/new-feature`.
-5. Open a pull request.
+5. Open a pull request and provide a description of your changes.
 
-## License
+## **License**
 
 This project is licensed under the MIT License.

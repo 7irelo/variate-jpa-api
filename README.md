@@ -1,5 +1,7 @@
 # **Variate JPA API**
 
+![variate](https://github.com/user-attachments/assets/5309b3ad-4cef-41ca-bf11-70d5e441f00f)
+
 **Variate JPA API** is a Spring Boot-based e-commerce backend application that provides a RESTful API for managing categories, products, orders, order items, payments, and reviews. The application integrates with PostgreSQL as its primary database and supports JWT-based authentication for secure access.
 
 ## **Features**

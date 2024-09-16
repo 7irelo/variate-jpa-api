@@ -52,15 +52,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf
-                        .disable() // Disable CSRF for APIs (enable if your app requires it)
-                )
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll() // Swagger UI & API docs
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // Public authentication endpoints
-                        .anyRequest().authenticated() // Protect all other endpoints
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .authenticationProvider(authenticationProvider()) // Custom Authentication Provider
+                .authenticationProvider(authenticationProvider())
                 .formLogin(form -> form
                         .loginProcessingUrl("/api/auth/login")
                         .permitAll()
@@ -69,16 +67,16 @@ public class SecurityConfig {
                         .logoutUrl("/api/auth/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .logoutSuccessHandler(logoutSuccessHandler()) // Custom logout success handler (optional)
+                        .logoutSuccessHandler(logoutSuccessHandler())
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")) // Handle unauthorized access
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
                 )
                 .sessionManagement(session -> session
                         .maximumSessions(1)
-                        .expiredUrl("/api/auth/login?expired=true") // Redirect to login on session expiration
+                        .expiredUrl("/api/auth/login?expired=true")
                 );
 
         return http.build();

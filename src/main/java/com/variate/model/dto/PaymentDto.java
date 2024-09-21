@@ -17,7 +17,7 @@ public class PaymentDto {
 
     public String paymentMethod;
 
-    public String paymentDate;
+    public UserDto paymentDate;
 
     public Float amount;
 }

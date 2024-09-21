@@ -28,7 +28,7 @@ public class UserMapper implements Mapper<User, UserDto> {
         return modelMapper.map(userDto, User.class);
     }
 
-    public String encodePassword(String password) {
+    public java.lang.String encodePassword(java.lang.String password) {
         return passwordEncoder.encode(password);
     }
 }

@@ -1,6 +1,7 @@
 package com.variate.services;
 
 import com.variate.model.dto.UserDto;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface UserService {
     UserDto getUserById(Long id);
 
     // Read a single user by username
-    UserDto getUserByUsername(String username);
+    UserDto getUserByUsername(java.lang.String username);
 
     // Read all users
     List<UserDto> getAllUsers();
@@ -26,4 +27,6 @@ public interface UserService {
 
     // Delete a user by ID
     void deleteUser(Long id);
+
+    String verify(UserDto userDto, Authentication authentication);
 }

@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -23,9 +24,11 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 public class SecurityConfig {
 
     private final UserServiceImpl userDetailsService;
+    private final JwtFilter jwtFilter;
 
-    public SecurityConfig(@Lazy UserServiceImpl userDetailsService) {
+    public SecurityConfig(@Lazy UserServiceImpl userDetailsService, JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
+        this.jwtFilter = jwtFilter;
     }
 
     // Password encoder configuration
@@ -56,17 +59,18 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api-docs/**").permitAll()
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                        .requestMatchers("/api/users/login", "/api/users/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form
-                        .loginProcessingUrl("/api/auth/login")
+                        .loginProcessingUrl("/api/users/login")
                         .permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
+                        .logoutUrl("/api/users/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .logoutSuccessHandler(logoutSuccessHandler())
@@ -78,7 +82,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session
                         .maximumSessions(1)
-                        .expiredUrl("/api/auth/login?expired=true")
+                        .expiredUrl("/api/users/login?expired=true")
                 );
         return http.build();
     }

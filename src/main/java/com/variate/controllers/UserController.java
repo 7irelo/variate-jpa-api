@@ -3,6 +3,9 @@ package com.variate.controllers;
 import com.variate.model.dto.UserDto;
 import com.variate.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,15 +15,26 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
     }
 
     // Create User
     @PostMapping("register")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.createUser(userDto));
+    }
+
+    // Login User
+    @PostMapping("login")
+    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
+        );
+        return ResponseEntity.ok(userService.verify(userDto, authentication));
     }
 
     // Get User by ID
@@ -30,7 +44,7 @@ public class UserController {
     }
 
     // Get User by Username
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }

@@ -1,0 +1,6 @@
+### GET request to get categories
+GET http://localhost:8080/api/categories
+Authorization: Basic YWRtaW46cGFzc3dvcmQ=
+
+###
+POST

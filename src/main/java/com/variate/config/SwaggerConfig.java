@@ -1,6 +1,5 @@
 package com.variate.config;
 
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
@@ -15,7 +14,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Variate E-Commerce API")
+                        .title("Variate E-Commerce JPA API")
                         .description("API documentation for Variate E-Commerce Spring Boot Application")
                         .version("v1.0")
                         .contact(new Contact()

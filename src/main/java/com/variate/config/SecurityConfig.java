@@ -52,7 +52,6 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // SecurityFilterChain with enhanced security features
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -64,10 +63,6 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(form -> form
-                        .loginProcessingUrl("/api/users/login")
-                        .permitAll()
-                )
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout
                         .logoutUrl("/api/users/logout")
@@ -77,13 +72,17 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                        })
                 )
                 .sessionManagement(session -> session
                         .maximumSessions(1)
                         .expiredUrl("/api/users/login?expired=true")
                 );
+
         return http.build();
     }
 

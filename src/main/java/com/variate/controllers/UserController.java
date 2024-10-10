@@ -2,13 +2,16 @@ package com.variate.controllers;
 
 import com.variate.model.dto.UserDto;
 import com.variate.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -30,11 +33,25 @@ public class UserController {
 
     // Login User
     @PostMapping("login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDto userDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
         );
-        return ResponseEntity.ok(userService.verify(userDto, authentication));
+
+        String token = userService.verify(userDto, authentication);
+
+        if (!token.equals("Failed")) {
+            // Add token to the response body
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("token", token);
+
+            // Return the token in both the Authorization header and response body
+            return ResponseEntity.ok()
+                    .header("Authorization", "Bearer " + token)
+                    .body(responseBody);
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
     // Get User by ID
